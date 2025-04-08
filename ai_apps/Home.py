@@ -1,123 +1,117 @@
 import nest_asyncio
 import streamlit as st
+from streamlit_option_menu import option_menu  # For the navigation bar
 
 # Apply necessary asyncio patches for Streamlit
 nest_asyncio.apply()
 
 # Configuration for the Streamlit web page
 st.set_page_config(
-    page_title="Log AI Analyzer",  # Set your desired page title
-    page_icon=":orange_heart:",  # Set your desired favicon using emoji or a URL to an image
+    page_title="Log AI Analyzer",
+    page_icon=":orange_heart:",
+    layout="wide"
 )
 
-# Inject custom CSS for sidebar color and table styling
-st.markdown(
-    """
+# Custom CSS for the app
+st.markdown("""
     <style>
-    /* Target the sidebar directly with its internal Streamlit structure */
-    div[data-testid="stSidebar"] {
-        background-color: #007BFF;  /* Your desired blue color */
-        color: #ffffff;  /* Ensuring text is white for better readability */
+    /* Main content padding */
+    .main .block-container {
+        padding-top: 2rem;
     }
-    /* Adjust link colors in the sidebar */
+    /* Sidebar styling */
+    div[data-testid="stSidebar"] {
+        background-color: #007BFF;
+        color: #ffffff;
+    }
     div[data-testid="stSidebar"] a {
         color: #ffffff;
     }
-    /* Adjust button colors in the sidebar */
     div[data-testid="stSidebar"] .stButton > button {
         color: #ffffff;
-        background-color: #0056b3;  /* Darker blue for buttons */
+        background-color: #0056b3;
     }
-    /* Adjust main title */
-    .title {
-        font-size: 3em;
-        text-align: center;
-        padding-bottom: 20px;
-        animation: glow 2s linear infinite alternate;
-        text-shadow: 0 0 10px #007BFF, 0 0 20px #007BFF, 0 0 30px #007BFF, 0 0 40px #0056b3, 0 0 70px #0056b3, 0 0 80px #0056b3, 0 0 100px #0056b3, 0 0 150px #0056b3;
+    /* Navigation bar styling */
+    .st-eb {
+        padding: 0.5rem;
     }
-    /* Animation for glowing effect */
-    @keyframes glow {
-        from {
-            text-shadow: 0 0 10px #007BFF, 0 0 20px #007BFF, 0 0 30px #007BFF, 0 0 40px #0056b3, 0 0 70px #0056b3, 0 0 80px #0056b3, 0 0 100px #0056b3, 0 0 150px #0056b3;
-        }
-        to {
-            text-shadow: 0 0 20px #007BFF, 0 0 30px #007BFF, 0 0 40px #0056b3, 0 0 70px #0056b3, 0 0 80px #0056b3, 0 0 100px #0056b3, 0 0 150px #0056b3, 0 0 200px #0056b3, 0 0 300px #0056b3;
-        }
-    }
-    /* Beautify table */
-    table {
-        border-collapse: collapse;
-        width: 100%;
-        margin-bottom: 20px;
-    }
-    th, td {
-        padding: 12px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-    }
-    th {
-        background-color: #f2f2f2;
-        color: #333;
-    }
-    tr:hover {
-        background-color: #f5f5f5;
-        border: 3px solid #ccc; /* Light gray border color */
-    }
-    tr:hover td {
-        color: #000;
+    .css-1wivap2.e16fv1kl3 {
+        background-color: #f0f2f6;
     }
     </style>
-    """,
-    unsafe_allow_html=True
+    """, unsafe_allow_html=True)
+
+# Navigation bar
+selected = option_menu(
+    menu_title=None,
+    options=["Home", "Search Log Exceptions", "RAG Research", "Dashboard Analysis"],
+    icons=["house", "search", "book", "bar-chart"],
+    menu_icon="cast",
+    default_index=0,
+    orientation="horizontal",
+    styles={
+        "container": {"padding": "0!important", "background-color": "#f8f9fa"},
+        "icon": {"color": "orange", "font-size": "18px"},
+        "nav-link": {
+            "font-size": "16px",
+            "text-align": "center",
+            "margin": "0px",
+            "--hover-color": "#eee",
+        },
+        "nav-link-selected": {"background-color": "#007BFF"},
+    }
 )
 
-# Display the banner image
-# Replace line 76 in your code with this:
-try:
-    st.image('background.jpg', width=500)  # First try local file
-except:
-    # Fallback to a placeholder or online image
-    st.image('https://placehold.co/600x400?text=Log+Analyzer', width=500)
+# Main content based on navigation selection
+if selected == "Home":
+    # Home page content
+    st.markdown("<h1 style='text-align: center;'>💡 Log AI Analyzer 💡</h1>", unsafe_allow_html=True)
+    st.markdown("""
+        <p style='text-align: center; font-size: 18px;'>
+        Analyze logs and errors with ease using our powerful AI tools. 
+        Our platform provides comprehensive analysis capabilities to help you gain insights and optimize your workflows.
+        </p>
+        """, unsafe_allow_html=True)
     
-# Main title of the application with emojis and paragraph
-st.markdown("<h1 class='title'>💡 Log AI Analyzer 💡</h1>", unsafe_allow_html=True)
-st.markdown(
-    """
-    Analyze logs and errors with ease using our powerful AI tools. 
-    Our platform provides comprehensive analysis capabilities to help you gain insights and optimize your workflows.
-    """
-)
+    st.markdown("---")
+    
+    # App features table
+    st.markdown("""
+    <table style="width:100%">
+      <tr>
+        <th style="width:30%">App Name</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><b>Search Log Exceptions</b></td>
+        <td>Search and analyze log exceptions with advanced filtering and pattern recognition</td>
+      </tr>
+      <tr>
+        <td><b>RAG Research for Errors</b></td>
+        <td>Research and analyze errors using Retrieval-Augmented Generation (RAG) technology</td>
+      </tr>
+      <tr>
+        <td><b>Dashboard Analysis</b></td>
+        <td>Analyze and optimize dashboard performance with AI-powered insights</td>
+      </tr>
+    </table>
+    """, unsafe_allow_html=True)
 
-# Main function to structure the page
-def main() -> None:
-    st.markdown("---")  # Separator for visual appeal
-    st.markdown("### Select an AI App from the sidebar to get started.")  # Instruction or headline for the sidebar
+elif selected == "Search Log Exceptions":
+    st.title("Search Log Exceptions")
+    st.write("This is the Search Log Exceptions app page.")
+    # Add your actual search functionality here
+    
+elif selected == "RAG Research":
+    st.title("RAG Research for Errors")
+    st.write("This is the RAG Research app page.")
+    # Add your RAG functionality here
+    
+elif selected == "Dashboard Analysis":
+    st.title("Analyzing Dashboards")
+    st.write("This is the Dashboard Analysis app page.")
+    # Add your dashboard analysis functionality here
 
-    # Beautified table
-    st.markdown(
-        """
-        <table>
-          <tr>
-            <th>App Name</th>
-            <th>Description</th>
-          </tr>
-          <tr>
-            <td>Search Log Exceptions</td>
-            <td>Search and analyze log exceptions</td>
-          </tr>
-          <tr>
-            <td>RAG Research for Errors</td>
-            <td>Research and analyze errors with RAG</td>
-          </tr>
-          <tr>
-            <td>Analyzing Dashboards</td>
-            <td>Analyze and optimize dashboard performance</td>
-          </tr>
-        </table>
-        """,
-        unsafe_allow_html=True
-    )
-
-# Execute the main function to run the app
-main()
+# Footer
+st.markdown("---")
+st.markdown("<div style='text-align: center;'>© 2023 Log AI Analyzer</div>", unsafe_allow_html=True)
