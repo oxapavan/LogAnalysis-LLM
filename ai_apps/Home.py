@@ -73,8 +73,13 @@ st.markdown(
 )
 
 # Display the banner image
-st.image('background.jpg', width=500)  # Adjust the width as necessary
-
+# Replace line 76 in your code with this:
+try:
+    st.image('background.jpg', width=500)  # First try local file
+except:
+    # Fallback to a placeholder or online image
+    st.image('https://placehold.co/600x400?text=Log+Analyzer', width=500)
+    
 # Main title of the application with emojis and paragraph
 st.markdown("<h1 class='title'>💡 Log AI Analyzer 💡</h1>", unsafe_allow_html=True)
 st.markdown(
