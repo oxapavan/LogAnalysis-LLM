@@ -1,18 +1,14 @@
-import nest_asyncio
 import streamlit as st
 from streamlit_option_menu import option_menu
 
-# Apply necessary asyncio patches for Streamlit
-nest_asyncio.apply()
-
 # Configuration for the Streamlit web page
 st.set_page_config(
-    page_title="Log AI Analyzer",
-    page_icon=":orange_heart:",
+    page_title="SmartLog Solutions",
+    page_icon="💡",
     layout="wide"
 )
 
-# Custom CSS for the app
+# Custom CSS (keep your existing styles)
 st.markdown("""
     <style>
     /* Main content padding */
@@ -79,54 +75,56 @@ selected = option_menu(
     }
 )
 
-# Page routing
-if selected == "Home":
+# Page routing using query parameters
+query_params = st.experimental_get_query_params()
+
+if selected == "Log Exceptions" or query_params.get("page", [""])[0] == "log_exceptions":
+    st.experimental_set_query_params(page="log_exceptions")
+    from Pages import Log_Exceptions
+    Log_Exceptions.main()
+elif selected == "RAG Chat" or query_params.get("page", [""])[0] == "rag_chat":
+    st.experimental_set_query_params(page="rag_chat")
+    from Pages import RAG_Chat
+    RAG_Chat.main()
+elif selected == "Dashboard Analyzer" or query_params.get("page", [""])[0] == "dashboard":
+    st.experimental_set_query_params(page="dashboard")
+    from Pages import Dashboard_Analyzer
+    Dashboard_Analyzer.main()
+else:
     # Home page content
-    st.markdown("<h1 style='text-align: center;'>💡 Log AI Analyzer 💡</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 class='title'>💡 SmartLog Solutions 💡</h1>", unsafe_allow_html=True)
     st.markdown("""
-        <p style='text-align: center; font-size: 18px;'>
         Analyze logs and errors with ease using our powerful AI tools. 
         Our platform provides comprehensive analysis capabilities to help you gain insights and optimize your workflows.
-        </p>
-        """, unsafe_allow_html=True)
-    
-    st.markdown("---")
-    
-    # App features table with navigation buttons
-    st.markdown("""
-    <table style="width:100%">
-      <tr>
-        <th style="width:30%">App Name</th>
-        <th>Description</th>
-        <th style="width:20%">Action</th>
-      </tr>
-      <tr>
-        <td><b>Log Exceptions</b></td>
-        <td>Search and analyze log exceptions with advanced filtering and pattern recognition</td>
-        <td><button onclick="window.location.href='./Pages/1_Log_Exceptions.py'">Go to App</button></td>
-      </tr>
-      <tr>
-        <td><b>RAG Chat</b></td>
-        <td>Research and analyze errors using Retrieval-Augmented Generation (RAG) technology</td>
-        <td><button onclick="window.location.href='./Pages/2_RAG_Chat.py'">Go to App</button></td>
-      </tr>
-      <tr>
-        <td><b>Dashboard Analyzer</b></td>
-        <td>Analyze and optimize dashboard performance with AI-powered insights</td>
-        <td><button onclick="window.location.href='./Pages/3_Dashboard_Analyzer.py'">Go to App</button></td>
-      </tr>
-    </table>
-    """, unsafe_allow_html=True)
+        """)
 
-elif selected == "Log Exceptions":
-    st.switch_page("./Pages/1_Log_Exceptions.py")
+    st.markdown("---")
+    st.markdown("### Select an AI App from the navigation bar or the links below to get started.")
+
+    # Navigation links
+    col1, col2, col3 = st.columns(3)
     
-elif selected == "RAG Chat":
-    st.switch_page("./Pages/2_RAG_Chat.py")
-    
-elif selected == "Dashboard Analyzer":
-    st.switch_page("./Pages/3_Dashboard_Analyzer.py")
+    with col1:
+        st.markdown("#### Search Log Exceptions")
+        st.markdown("Search and analyze log exceptions, and their possible remedial actions")
+        if st.button("Go to App", key="log_exceptions"):
+            st.experimental_set_query_params(page="log_exceptions")
+            st.rerun()
+
+    with col2:
+        st.markdown("#### RAG Research for Errors")
+        st.markdown("Research and analyze errors with RAG")
+        if st.button("Go to App", key="rag_chat"):
+            st.experimental_set_query_params(page="rag_chat")
+            st.rerun()
+
+    with col3:
+        st.markdown("#### Analyzing Dashboards")
+        st.markdown("Analyze and optimize dashboard performance")
+        if st.button("Go to App", key="dashboard"):
+            st.experimental_set_query_params(page="dashboard")
+            st.rerun()
 
 # Footer
 st.markdown("---")
-st.markdown("<div style='text-align: center;'>© 2023 Log AI Analyzer</div>", unsafe_allow_html=True)
+st.markdown("<div style='text-align: center;'>© 2023 SmartLog Solutions</div>", unsafe_allow_html=True)
