@@ -89,6 +89,9 @@ def main() -> None:
     st.markdown("---")  # Separator for visual appeal
     st.markdown("### Select an AI App from the sidebar to get started.")  # Instruction or headline for the sidebar
 
+    # Sidebar content
+    st.sidebar.success("Select an AI App from above")  # This will make sidebar visible with the success message
+
     # Beautified table
     st.markdown(
         """
@@ -113,6 +116,10 @@ def main() -> None:
         """,
         unsafe_allow_html=True
     )
+
+# Execute main function
+main()
+
 
 # Execute the main function to run the app
 main()
